@@ -1,0 +1,42 @@
+import java.util.*;
+
+class prob130 {
+    static void maxOfMin(int[] arr) {
+        int n = arr.length;
+        int[] res = new int[n + 1];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        Stack<Integer> st = new Stack<>();
+
+        for (int i = 0; i < n; i++) {
+            while (!st.isEmpty() && arr[st.peek()] >= arr[i])
+                st.pop();
+            left[i] = st.isEmpty() ? -1 : st.peek();
+            st.push(i);
+        }
+
+        st.clear();
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.isEmpty() && arr[st.peek()] >= arr[i])
+                st.pop();
+            right[i] = st.isEmpty() ? n : st.peek();
+            st.push(i);
+        }
+
+        for (int i = 0; i < n; i++) {
+            int len = right[i] - left[i] - 1;
+            res[len] = Math.max(res[len], arr[i]);
+        }
+
+        for (int i = n - 1; i >= 1; i--)
+            res[i] = Math.max(res[i], res[i + 1]);
+
+        for (int i = 1; i <= n; i++)
+            System.out.print(res[i] + " ");
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 10, 20, 30, 50, 10, 70, 30 };
+        maxOfMin(arr);
+    }
+}

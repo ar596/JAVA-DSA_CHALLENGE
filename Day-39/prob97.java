@@ -1,0 +1,21 @@
+import java.util.*;
+
+class prob97 {
+    public static void main(String[] args) {
+        int[] a = { 1, 2, 1 };
+        int n = a.length;
+        int[] res = new int[n];
+        Arrays.fill(res, -1);
+        Stack<Integer> st = new Stack<>();
+        for (int i = 2 * n - 1; i >= 0; i--) {
+            int idx = i % n;
+            while (!st.isEmpty() && st.peek() <= a[idx])
+                st.pop();
+            if (i < n)
+                res[idx] = st.isEmpty() ? -1 : st.peek();
+            st.push(a[idx]);
+        }
+        for (int x : res)
+            System.out.print(x + " ");
+    }
+}
